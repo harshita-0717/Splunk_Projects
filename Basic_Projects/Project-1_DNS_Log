@@ -45,23 +45,23 @@ This was my first hands-on Splunk project, completed by following a YouTube cour
 ## 🔍 DNS Log Analysis in Splunk
 
 ### 1. Basic DNS Event Search
-```spl
+
 index=* sourcetype=dns_sample
 
 ### 2. Filter DNS-Related Events with Regex
-```spl
+
 index=* sourcetype=dns_sample | regex _raw="(?i)\b(dns|domain|query|response|port 53)\b"
 
 ### 3. Identify Traffic Spikes by Domain
-```spl
+
 index=* sourcetype=dns_sample | stats count by fqdn
 
 ### 4. Top Sources by Domain Queries
-```spl
+
 index=* sourcetype=dns_sample | top fqdn, src_ip
 
 ### 5. Investigate Known Malicious Domains
-```spl
+
 index=* sourcetype=dns_sample fqdn="maliciousdomain.com"
 
 
