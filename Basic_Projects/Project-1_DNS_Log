@@ -1,0 +1,75 @@
+# 📁 Project: DNS Log Analysis using Splunk SIEM
+
+## 📝 Description
+This project demonstrates how to ingest and analyze DNS log files using **Splunk SIEM**. It focuses on extracting meaningful insights from DNS traffic to detect potential threats and anomalies.  
+This was my first hands-on Splunk project, completed by following a YouTube course by **[@0xrajneesh](https://www.youtube.com/@0xrajneesh)**.
+
+---
+
+## 🎯 Objectives
+- Upload and parse sample DNS log files into Splunk.
+- Extract critical fields such as source IP, destination IP, domain name, query type, and response code.
+- Use SPL (Search Processing Language) to detect anomalies and identify suspicious domains.
+- Apply regex filters and statistical functions to analyze DNS traffic behavior.
+
+---
+
+## 🛠️ Prerequisites
+- A working Splunk instance installed and configured.
+- Sample DNS log files (plain text format) with relevant DNS events.
+- Basic understanding of Splunk Search Processing Language (SPL).
+
+---
+
+## 📥 Data Ingestion Steps
+
+1. **Prepare DNS Log Files**
+   - Ensure logs include fields like source IP, FQDN, query type, response code, etc.
+
+2. **Upload Logs to Splunk**
+   - Go to: `Settings > Add Data > Upload`
+   - Select your DNS log file.
+
+3. **Set Source Type**
+   - Use an appropriate source type (e.g., `dns_sample`).
+   - Assign correct index and host.
+
+4. **Verify Ingestion**
+   - Use a basic search to verify data:
+     ```spl
+     index=<your_dns_index> sourcetype=dns_sample
+     ```
+
+---
+
+## 🔍 DNS Log Analysis in Splunk
+
+### 1. Basic DNS Event Search
+```spl
+index=* sourcetype=dns_sample
+
+### 2. Filter DNS-Related Events with Regex
+```spl
+index=* sourcetype=dns_sample | regex _raw="(?i)\b(dns|domain|query|response|port 53)\b"
+
+### 3. Identify Traffic Spikes by Domain
+```spl
+index=* sourcetype=dns_sample | stats count by fqdn
+
+### 4. Top Sources by Domain Queries
+```spl
+index=* sourcetype=dns_sample | top fqdn, src_ip
+
+### 5. Investigate Known Malicious Domains
+```spl
+index=* sourcetype=dns_sample fqdn="maliciousdomain.com"
+
+
+## 📈 Outcome
+    - Successfully identified high-traffic DNS domains.
+
+    - Detected anomalies and abnormal patterns in DNS activity.
+
+    - Built a strong foundational understanding of using Splunk for security log analysis.
+
+    - Laid the groundwork for future projects in threat detection and security operations.
